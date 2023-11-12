@@ -32,7 +32,6 @@ public class StudyField {
     @Column
     private Integer semesterAmount;
 
-
     @OneToMany(mappedBy = "studyField")
     @JsonIgnore
     @JsonManagedReference(value = "studentUsers")

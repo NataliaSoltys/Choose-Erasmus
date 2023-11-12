@@ -1,44 +1,40 @@
 package com.app.chooseErasmus.universityUser;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@RequiredArgsConstructor
+@Slf4j
 @RestController
 @RequestMapping("/universities")
 public class UniversityUserController {
 
     @Autowired
-    private UniversityUserRepository universityUserRepository;
+    private UniversityUserApi universityUserApi;
 
     @GetMapping(value = "/users")
-    public List<UniversityUser> getUsers() {
-        return universityUserRepository.findAll();
+    public List<UniversityUser> getUniversityUsers() {
+        return universityUserApi.getUniversityUsers();
     }
 
     @PostMapping(value = "/save")
-    public String saveUser(@RequestBody UniversityUser user) {
-        universityUserRepository.save(user);
-        System.out.println("Saved with ".concat(user.toString()));
-        return "Saved";
+    public String saveUniversityUser(@RequestBody UniversityUser user) {
+        universityUserApi.saveUniversityUser(user);
+        return "Saved with ".concat(user.toString());
     }
 
     @PutMapping("/update/{id}")
-    public String updateUser(@PathVariable long id, @RequestBody UniversityUser user) {
-        UniversityUser updatedUniversityUser = universityUserRepository.findById(id).get();
-        updatedUniversityUser.setFullName(user.getFullName());
-        updatedUniversityUser.setCity(user.getCity());
-        updatedUniversityUser.setAddress(user.getAddress());
-//        updatedUniversityUser.setDean(user.getDean());
-        universityUserRepository.save(updatedUniversityUser);
-        return "Updated";
+    public String updateUniversityUser(@PathVariable long id, @RequestBody UniversityUser user) {
+        universityUserApi.updateUniversityUser(id, user);
+        return "Updated with ".concat(user.toString());
     }
 
     @DeleteMapping("/delete/{id}")
-    public String update(@PathVariable long id){
-        UniversityUser deleteUser = universityUserRepository.findById(id).get();
-        universityUserRepository.delete(deleteUser);
-        return "Deleted";
+    public String updateUniversityUser(@PathVariable long id){
+        universityUserApi.updateUniversityUser(id);
+        return "Deleted with".concat(String.valueOf(id));
     }
 }

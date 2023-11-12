@@ -1,41 +1,41 @@
 package com.app.chooseErasmus.studyField;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
+@Slf4j
 @RestController
 @RequestMapping("/studyField")
 public class StudyFieldController {
     @Autowired
-    private StudyFieldRepository studyFieldRepository;
+    private StudyFieldApi studyFieldApi;
 
     @GetMapping(value = "/studyFields")
     public List<StudyField> getStudyFields() {
-        return studyFieldRepository.findAll();
+        return studyFieldApi.getStudyFields();
     }
 
     @PostMapping(value = "/save")
     public String saveStudyField(@RequestBody StudyField studyField) {
-        studyFieldRepository.save(studyField);
-        System.out.println("Saved with ".concat(studyField.toString()));
-        return "Saved";
+        studyFieldApi.saveStudyField(studyField);
+        return "Saved with ".concat(studyField.toString());
     }
 
     @PutMapping("/update/{id}")
-    public String updateUser(@PathVariable long id, @RequestBody StudyField studyField) {
-        StudyField updatedUniversityUser = studyFieldRepository.findById(id).get();
-        updatedUniversityUser.setFullName(studyField.getFullName());
-        updatedUniversityUser.setSemesterAmount(studyField.getSemesterAmount());
-        studyFieldRepository.save(updatedUniversityUser);
-        return "Updated";
+    public String updateStudyField(@PathVariable long id, @NotNull @RequestBody StudyField studyField) {
+        studyFieldApi.updateStudyField(id, studyField);
+        return "Updated with id: ".concat(String.valueOf(id));
     }
 
     @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable long id) {
-        StudyField studyField = studyFieldRepository.findById(id).get();
-        studyFieldRepository.delete(studyField);
-        return "Deleted";
+        studyFieldApi.deleteStudyField(id);
+        return "Deleted with id: ".concat(String.valueOf(id));
     }
 }

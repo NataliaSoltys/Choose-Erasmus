@@ -1,51 +1,45 @@
 package com.app.chooseErasmus.course;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-
+@RequiredArgsConstructor
+@Slf4j
 @RestController
 @RequestMapping("/course")
 public class CourseController {
     @Autowired
-    private CourseRepository courseRepository;
+    private CourseApi courseApi;
 
     @GetMapping(value = "/courses")
     public List<Course> getCourses() {
-        return courseRepository.findAll();
+        return courseApi.getCourses();
     }
 
     @GetMapping(value = "/courses/{id}")
     public Optional<Course> getCourseById(@PathVariable Long id) {
-        return courseRepository.findById(id);
+        return courseApi.getCourseById(id);
     }
-
-//    @GetMapping(value = "/courses/search")
-//    public List<Course> findByRequestParams(@ModelAttribute Course courseParams) {
-//        return courseRepository.findCoursesByParams(courseParams);
-//    }
 
     @PostMapping(value = "/save")
     public String saveCourse(@RequestBody Course course) {
-        courseRepository.save(course);
-        System.out.println("Saved with ".concat(course.toString()));
-        return "Saved";
+        courseApi.saveCourse(course);
+        return "Saved with id: ".concat(course.toString());
     }
 
     @PutMapping("/update/{id}")
     public String updateCourse(@PathVariable long id, @RequestBody Course course) {
-        Course updatedCourse = courseRepository.findById(id).get();
-// TODO
-        courseRepository.save(updatedCourse);
-        return "Updated";
+        courseApi.updateCourse(id, course);
+        return "Updated with id: ".concat(course.toString());
     }
 
     @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable long id) {
-        Course studentUser = courseRepository.findById(id).get();
-        courseRepository.delete(studentUser);
-        return "Deleted";
+        courseApi.deleteCourse(id);
+        return "Deleted with id: ".concat(String.valueOf(id));
     }
 }

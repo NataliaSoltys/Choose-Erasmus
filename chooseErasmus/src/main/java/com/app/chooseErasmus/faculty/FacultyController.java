@@ -1,40 +1,40 @@
 package com.app.chooseErasmus.faculty;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
+@Slf4j
 @RestController
 @RequestMapping("/faculty")
 public class FacultyController {
     @Autowired
-    private FacultyRepository facultyRepository;
+    private FacultyApi facultyApi;
 
     @GetMapping(value = "/faculties")
-    public List<Faculty> getStudyFields() {
-        return facultyRepository.findAll();
+    public List<Faculty> getFaculties() {
+        return facultyApi.getStudyFields();
     }
 
     @PostMapping(value = "/save")
     public String saveFaculty(@RequestBody Faculty faculty) {
-        facultyRepository.save(faculty);
-        System.out.println("Saved with ".concat(faculty.toString()));
-        return "Saved";
+        facultyApi.saveFaculty(faculty);
+        return "Saved with ".concat(faculty.toString());
     }
 
     @PutMapping("/update/{id}")
     public String updateFaculty(@PathVariable long id, @RequestBody Faculty faculty) {
-        Faculty updateFaculty = facultyRepository.findById(id).get();
-        updateFaculty.setFullName(faculty.getFullName());
-        facultyRepository.save(updateFaculty);
-        return "Updated";
+        facultyApi.updateFaculty(id, faculty);
+        return "Updated with id: ".concat(String.valueOf(id));
     }
 
     @DeleteMapping("/delete/{id}")
     public String update(@PathVariable long id) {
-        Faculty faculty = facultyRepository.findById(id).get();
-        facultyRepository.delete(faculty);
-        return "Deleted";
+        facultyApi.deleteFaculty(id);
+        return "Deleted with id: ".concat(String.valueOf(id));
     }
 }

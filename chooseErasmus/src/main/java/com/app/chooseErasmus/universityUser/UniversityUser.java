@@ -1,8 +1,10 @@
 package com.app.chooseErasmus.universityUser;
 
 import com.app.chooseErasmus.faculty.Faculty;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -10,6 +12,7 @@ import java.util.List;
 
 @Data
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class UniversityUser {
 
     @Id
@@ -28,9 +31,11 @@ public class UniversityUser {
     @Column
     private String rector;
 
-    /// ???
-    @JoinTable
-    private List<Long> contractedUniversities;
+    @ManyToMany
+    @JoinTable(name = "uni_contracted_uni",
+            joinColumns = @JoinColumn(name = "uni_id"),
+            inverseJoinColumns = @JoinColumn(name = "contracted_uni_id"))
+    private List<UniversityUser> contractedUniversities;
 
 // ---------  set to other entity   ------------
     @OneToMany(mappedBy = "university")
@@ -38,8 +43,4 @@ public class UniversityUser {
     @JsonManagedReference(value = "faculties")
     private List<Faculty> faculties;
 
-//    @ElementCollection
-//    @CollectionTable(name = "user_contracted_universities", joinColumns = @JoinColumn(name = "user_id"))
-//    @Column(name = "contracted_user_id")
-//    private List<Long> contractedUniversities;
 }
