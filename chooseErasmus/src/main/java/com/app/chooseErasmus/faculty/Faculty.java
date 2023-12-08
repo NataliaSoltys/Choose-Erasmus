@@ -2,15 +2,15 @@ package com.app.chooseErasmus.faculty;
 
 import com.app.chooseErasmus.studyField.StudyField;
 import com.app.chooseErasmus.universityUser.UniversityUser;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @Entity
@@ -32,14 +32,16 @@ public class Faculty {
 
     @ManyToOne
     @JoinColumn(name = "university_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private UniversityUser university;
 
 
 
-
+//  _________________________________________
     @OneToMany(mappedBy = "faculty")
     @JsonIgnore
     @JsonManagedReference(value = "studyFields")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<StudyField> studyFields;
 
 }

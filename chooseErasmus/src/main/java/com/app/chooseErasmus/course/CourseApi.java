@@ -23,6 +23,10 @@ public class CourseApi {
         return courseRepository.findById(id);
     }
 
+    public List<Course> getCoursesByStudyFieldId(Long studyFieldId){
+        return courseRepository.findAllByStudyFieldId(studyFieldId);
+    }
+
     public void saveCourse(Course course) {
         courseRepository.save(course);
     }
@@ -30,6 +34,14 @@ public class CourseApi {
     public void updateCourse(long id, Course course) {
         Course updatedCourse = courseRepository.findById(id).get();
         updatedCourse.setFullName(course.getFullName());
+        updatedCourse.setCourseCategory(course.getCourseCategory());
+        updatedCourse.setSemesterType(course.getSemesterType());
+        updatedCourse.setEctsPoints(course.getEctsPoints());
+        updatedCourse.setSemester(course.getSemester());
+        updatedCourse.setHoursAmount(course.getHoursAmount());
+        updatedCourse.setHoursAmount(course.getHoursAmount());
+        updatedCourse.setCourseDescription(course.getCourseDescription());
+        updatedCourse.setStudyField(course.getStudyField());
         courseRepository.save(updatedCourse);
     }
 

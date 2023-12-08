@@ -7,11 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Slf4j
 @RestController
-@RequestMapping("/studyField")
+@RequestMapping("/studyFieldApi")
 public class StudyFieldController {
     @Autowired
     private StudyFieldApi studyFieldApi;
@@ -19,6 +20,16 @@ public class StudyFieldController {
     @GetMapping(value = "/studyFields")
     public List<StudyField> getStudyFields() {
         return studyFieldApi.getStudyFields();
+    }
+
+    @GetMapping(value = "/studyFields/{id}")
+    public Optional<StudyField> getStudyFieldById(@PathVariable Long id) {
+        return studyFieldApi.getStudyFieldById(id);
+    }
+
+    @GetMapping(value = "/faculty/{facultyId}/studyFields")
+    public List<StudyField> getStudyFieldsByFacultyId(@PathVariable Long facultyId){
+        return studyFieldApi.getStudyFieldsByFacultyId(facultyId);
     }
 
     @PostMapping(value = "/save")

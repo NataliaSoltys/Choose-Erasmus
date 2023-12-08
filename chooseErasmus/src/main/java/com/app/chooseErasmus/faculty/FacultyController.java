@@ -6,11 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Slf4j
 @RestController
-@RequestMapping("/faculty")
+@RequestMapping("/facultyApi")
 public class FacultyController {
     @Autowired
     private FacultyApi facultyApi;
@@ -18,6 +19,16 @@ public class FacultyController {
     @GetMapping(value = "/faculties")
     public List<Faculty> getFaculties() {
         return facultyApi.getStudyFields();
+    }
+
+    @GetMapping(value = "/faculties/{facultyId}")
+    public Optional<Faculty> getFaculties(@PathVariable long facultyId) {
+        return facultyApi.getStudyFieldById(facultyId);
+    }
+
+    @GetMapping(value = "/university/{universityId}/faculties")
+    public List<Faculty> getFacultiesByUniversityId(@PathVariable long universityId){
+        return facultyApi.getFacultiesByUniversityId(universityId);
     }
 
     @PostMapping(value = "/save")
@@ -33,7 +44,7 @@ public class FacultyController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public String update(@PathVariable long id) {
+    public String deleteFaculty(@PathVariable long id) {
         facultyApi.deleteFaculty(id);
         return "Deleted with id: ".concat(String.valueOf(id));
     }

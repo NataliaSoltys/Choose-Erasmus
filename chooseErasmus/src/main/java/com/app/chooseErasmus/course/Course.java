@@ -3,14 +3,17 @@ package com.app.chooseErasmus.course;
 import com.app.chooseErasmus.enums.CourseCategory;;
 import com.app.chooseErasmus.enums.SemesterType;
 import com.app.chooseErasmus.studyField.StudyField;
-import com.app.chooseErasmus.universityUser.UniversityUser;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.UUID;
 
-@Entity
 @Data
+@Entity
+@NoArgsConstructor
 public class Course {
 
     @Id
@@ -33,7 +36,14 @@ public class Course {
     @Column
     private Integer semester;
 
+    @Column
+    private Integer hoursAmount;
+
+    @Column
+    private String courseDescription;
+
     @ManyToOne
     @JoinColumn(name = "study_field_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private StudyField studyField;
 }

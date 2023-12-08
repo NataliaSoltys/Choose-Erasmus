@@ -1,12 +1,11 @@
 package com.app.chooseErasmus.studentUser;
 
 import com.app.chooseErasmus.studyField.StudyField;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Data
 @Entity
@@ -21,6 +20,7 @@ public class StudentUser {
     private String fullName;
 
     @ManyToOne(cascade = CascadeType.MERGE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private StudyField studyField;
 
     @Column

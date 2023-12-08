@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.List;
 
@@ -32,6 +34,7 @@ public class UniversityUser {
     private String rector;
 
     @ManyToMany
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinTable(name = "uni_contracted_uni",
             joinColumns = @JoinColumn(name = "uni_id"),
             inverseJoinColumns = @JoinColumn(name = "contracted_uni_id"))
@@ -41,6 +44,7 @@ public class UniversityUser {
     @OneToMany(mappedBy = "university")
     @JsonIgnore
     @JsonManagedReference(value = "faculties")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Faculty> faculties;
 
 }

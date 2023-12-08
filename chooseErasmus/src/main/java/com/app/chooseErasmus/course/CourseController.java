@@ -10,7 +10,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 @RestController
-@RequestMapping("/course")
+@RequestMapping("/courseApi")
 public class CourseController {
     @Autowired
     private CourseApi courseApi;
@@ -23,6 +23,11 @@ public class CourseController {
     @GetMapping(value = "/courses/{id}")
     public Optional<Course> getCourseById(@PathVariable Long id) {
         return courseApi.getCourseById(id);
+    }
+
+    @GetMapping(value = "/studyField/{studyFieldId}/courses")
+    public List<Course> getCoursesByStudyFieldId(@PathVariable Long studyFieldId){
+        return courseApi.getCoursesByStudyFieldId(studyFieldId);
     }
 
     @PostMapping(value = "/save")
@@ -38,7 +43,7 @@ public class CourseController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable long id) {
+    public String deleteCourse(@PathVariable long id) {
         courseApi.deleteCourse(id);
         return "Deleted with id: ".concat(String.valueOf(id));
     }

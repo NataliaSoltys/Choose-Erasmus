@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +20,10 @@ public class FacultyApi {
         return facultyRepository.findAll();
     }
 
+    public List<Faculty> getFacultiesByUniversityId(Long universityId){
+        return facultyRepository.findByUniversityId(universityId);
+    }
+
     public void saveFaculty(Faculty faculty) {
         facultyRepository.save(faculty);
     }
@@ -26,6 +31,9 @@ public class FacultyApi {
     public void updateFaculty(long id, @RequestBody Faculty faculty) {
         Faculty updateFaculty = facultyRepository.findById(id).get();
         updateFaculty.setFullName(faculty.getFullName());
+        updateFaculty.setAddress(faculty.getAddress());
+        updateFaculty.setDean(faculty.getDean());
+        updateFaculty.setUniversity(faculty.getUniversity());
         facultyRepository.save(updateFaculty);
     }
 
@@ -34,4 +42,7 @@ public class FacultyApi {
         facultyRepository.delete(faculty);
     }
 
+    public Optional<Faculty> getStudyFieldById(long facultyId) {
+        return facultyRepository.findById(facultyId);
+    }
 }

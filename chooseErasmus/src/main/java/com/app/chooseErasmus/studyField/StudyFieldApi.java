@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +19,10 @@ public class StudyFieldApi {
         return studyFieldRepository.findAll();
     }
 
+    public Optional<StudyField> getStudyFieldById(Long id) {
+        return studyFieldRepository.findById(id);
+    }
+
     public void saveStudyField(StudyField studyField) {
         studyFieldRepository.save(studyField);
     }
@@ -26,11 +31,16 @@ public class StudyFieldApi {
         StudyField updatedUniversityUser = studyFieldRepository.findById(id).get();
         updatedUniversityUser.setFullName(studyField.getFullName());
         updatedUniversityUser.setSemesterAmount(studyField.getSemesterAmount());
+        updatedUniversityUser.setFaculty(studyField.getFaculty());
         studyFieldRepository.save(updatedUniversityUser);
     }
 
     public void deleteStudyField(long id) {
         StudyField studyField = studyFieldRepository.findById(id).get();
         studyFieldRepository.delete(studyField);
+    }
+
+    public List<StudyField> getStudyFieldsByFacultyId(Long facultyId) {
+        return studyFieldRepository.findAllByFacultyId(facultyId);
     }
 }

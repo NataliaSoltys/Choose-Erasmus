@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.List;
 import java.util.Map;
@@ -27,6 +29,7 @@ public class StudyField {
     private String fullName;
 
     @ManyToOne(cascade = CascadeType.MERGE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Faculty faculty;
 
     @Column
@@ -35,10 +38,12 @@ public class StudyField {
     @OneToMany(mappedBy = "studyField")
     @JsonIgnore
     @JsonManagedReference(value = "studentUsers")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<StudentUser> studentUsers;
 
     @OneToMany(mappedBy = "studyField")
     @JsonIgnore
     @JsonManagedReference(value = "studentUsers")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Course> courses;
 }

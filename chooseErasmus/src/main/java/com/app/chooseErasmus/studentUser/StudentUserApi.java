@@ -39,4 +39,8 @@ public class StudentUserApi {
         StudentUser studentUser = studentUserRepository.findById(id).get();
         studentUserRepository.delete(studentUser);
     }
+
+    public List<StudentUser> getStudentUserByStudyFieldId(Long studyFieldId) {
+        return studentUserRepository.findAllByStudyFieldId(studyFieldId);
+    }
 }

@@ -1,5 +1,6 @@
 package com.app.chooseErasmus.studentUser;
 
+import com.app.chooseErasmus.course.Course;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 @RestController
-@RequestMapping("/studentUser")
+@RequestMapping("/studentUserApi")
 public class StudentUserController {
     @Autowired
      private StudentUserApi studentUserApi;
@@ -24,6 +25,11 @@ public class StudentUserController {
     @GetMapping(value = "/studentUsers/{id}")
     public Optional<StudentUser> getStudentUserById(@PathVariable Long id) {
         return studentUserApi.getStudentUserById(id);
+    }
+
+    @GetMapping(value = "/studyField/{studyFieldId}/studentUsers")
+    public List<StudentUser> getStudentUserByStudyFieldId(@PathVariable Long studyFieldId){
+        return studentUserApi.getStudentUserByStudyFieldId(studyFieldId);
     }
 
     @PostMapping(value = "/save")
